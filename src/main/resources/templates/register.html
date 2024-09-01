@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <!-- Thêm Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Thêm Font Awesome từ CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <!-- Thêm file CSS riêng -->
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="register-container">
+            <h2 class="login-title" id="register-title">Register</h2>
+            <form id="registerForm">
+                <div class="input-container">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-container">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="button" class="btn btn-primary btn-block btn-register" onclick="registerUser()">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Thêm Bootstrap JS và các thư viện phụ thuộc -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Thêm file JavaScript riêng -->
+    <script src="/js/register.js"></script>
+    <script>
+        function registerUser() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const customer = {
+                email: email,
+                password: password
+            };
+
+            fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(customer)
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                // Redirect to login page after successful registration
+                if (data === "Người dùng đã đăng ký thành công!") {
+                    window.location.href = "/login";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
