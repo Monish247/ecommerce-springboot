@@ -19,8 +19,6 @@ This project is a basic Ecommerce application designed to demonstrate a simple w
 ## Features
 
 - **User Management**: Register, login, password reset functionalities.
-- **Product Management**: List and view products.
-- **Cart Management**: Add and remove products from the cart.
 - **Email Integration**: Sends emails for password reset using JavaMailSender.
 - **Security**: Password encryption using SHA-256.
 
