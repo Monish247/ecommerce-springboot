@@ -1,0 +1,39 @@
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: Lienminh02@
+      MYSQL_DATABASE: ecommerce_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+  springboot:
+    image: javaapp:v1 
+    container_name: java-app
+    depends_on:
+      - mysql
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/ecommerce_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Lienminh02@
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+    volumes:
+      - ./src/main/resources/static:/usr/share/nginx/html
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-container
+    ports:
+      - "8082:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+volumes:
+  mysql-data:
